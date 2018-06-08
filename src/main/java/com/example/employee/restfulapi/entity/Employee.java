@@ -15,6 +15,10 @@ public class Employee {
     private Integer salary;
     private Long companyId;
 
+    @ManyToOne(targetEntity = Company.class)
+    @JoinColumn(name = "companId", insertable = false, updatable = false)
+    private Company company;
+    
     public Employee() {
     }
 
