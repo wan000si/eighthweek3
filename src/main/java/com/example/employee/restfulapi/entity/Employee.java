@@ -18,7 +18,7 @@ public class Employee {
     @ManyToOne(targetEntity = Company.class)
     @JoinColumn(name = "companId", insertable = false, updatable = false)
     private Company company;
-    
+
     public Employee() {
     }
 
