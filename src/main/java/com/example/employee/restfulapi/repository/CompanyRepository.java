@@ -25,6 +25,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     Page<Company> findAll(Pageable pageable);
 
+
+    Company save(Company company);
+
     @Transactional
     @Modifying
     @Query("update Company c set c.companyName=?1,c.employeesNumber=?2 where c.id=?3")
@@ -32,6 +35,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     @Transactional
     @Modifying
-    void deleteByCompanyName(String companyName);
+    void deleteByCompanyId(long id);
 
 }
