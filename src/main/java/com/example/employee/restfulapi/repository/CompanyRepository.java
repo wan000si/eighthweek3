@@ -23,7 +23,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query("select e from Employee e where e.companyId=?1")
     List<Employee> getEmployeesByCompanyId(long companyId);
 
-    Page findAll(Pageable pageable);
+    Page<Company> findAll(Pageable pageable);
 
     @Transactional
     @Modifying
