@@ -58,8 +58,8 @@ public class CompanyController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteCompany(@PathVariable long id) throws Exception{
-        Company company = findCompanyById(id);
-        if (company==null) {
+
+        if (companyRepository.findById(id)==null) {
             throw new Exception("Company Not Find!");
         }
         companyRepository.deleteByCompanyId(id);
