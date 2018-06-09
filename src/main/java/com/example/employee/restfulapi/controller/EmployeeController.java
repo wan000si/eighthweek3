@@ -25,44 +25,45 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    Employee findById(@PathVariable long id) {
+    public Employee findById(@PathVariable long id) {
         return employeeRepository.findById(id);
     }
 
     @RequestMapping(value = "/page/{page}/pageSize/{pageSize}", method = RequestMethod.GET)
-    public Page<Employee> finAllPage(@PathVariable int page,int pageSize) {
+    public Page<Employee> finByPage(@PathVariable int page,@PathVariable int pageSize) {
         return employeeRepository.findAll(new PageRequest(page, pageSize));
     }
 
     @RequestMapping(value = "/male", method = RequestMethod.GET)
-    public List<Employee> findByGender() {
+    public List<Employee> findByMale() {
         return employeeRepository.findByGender("male");
     }
 
-    @RequestMapping( method = RequestMethod.POST)
-   public Employee saveEmployee(Employee employee) throws Exception{
+    @RequestMapping(method = RequestMethod.POST)
+    public Employee saveEmployee(Employee employee) throws Exception {
         if (employee.getName() == null) {
-            throw  new Exception("Employee Not Find!");
+            throw new Exception("Employee Not Find!");
         }
         return employeeRepository.save(employee);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Employee updateEmployee(@PathVariable long id, @RequestBody Employee employee) throws Exception{
+    public Employee updateEmployee(@PathVariable long id, @ModelAttribute Employee employee) throws Exception{
         if (employeeRepository.findById(id) == null) {
             throw new Exception("Employee Not Find!");
         }
-        employeeRepository.update(id, employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary(), employee.getCompanyId());
+        employeeRepository.update(id, employee.getName(), employee.getAge(), employee.getGender(), employee.getCompanyId(), employee.getSalary());
         return employeeRepository.findById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteEmployee(long id) throws Exception{
+    public boolean deleteEmployee(@PathVariable long id) throws Exception{
         if (employeeRepository.findById(id) == null) {
             throw new Exception("Employee Not Find!");
         }
         employeeRepository.deleteById(id);
-        
+
+        return true;
     }
 
 }
