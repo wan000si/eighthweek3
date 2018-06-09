@@ -30,25 +30,25 @@ public class CompanyController {
     }
 
     @RequestMapping(value = "/{id}/employees", method = RequestMethod.GET)
-    public List<Employee> getEmployeesByCompanyId(@PathVariable long companyId) {
-        return companyRepository.getEmployeesByCompanyId(companyId);
+    public List<Employee> getEmployeesByCompanyId(@PathVariable long id) {
+        return companyRepository.getEmployeesByCompanyId(id);
     }
 
     @RequestMapping(value = "/page/{page}/pageSize/{pageSize}", method = RequestMethod.GET)
-    public Page<Company> findAllPage(@PathVariable int page, @PathVariable int pageSize) {
+    public Page<Company> findByPage(@PathVariable int page, @PathVariable int pageSize) {
         return companyRepository.findAll(new PageRequest(page, pageSize));
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public Company saveCompany(Company company) throws Exception {
         if (company.getCompanyName() == null || company.getEmployeesNumber() == null) {
-            throw new Exception("Invalid Company!");
+            throw new Exception("Company Not Find!");
         }
         return companyRepository.save(company);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Company updateCompany(@PathVariable long id, @RequestBody Company company) throws Exception {
+    public Company updateCompany(@PathVariable long id, @ModelAttribute Company company) throws Exception {
         if (findCompanyById(id) == null) {
             throw new Exception("Company Not Find!");
         }
@@ -57,12 +57,13 @@ public class CompanyController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteCompany(@PathVariable long id) throws Exception{
+    public boolean deleteCompany(@PathVariable long id) throws Exception{
 
         if (companyRepository.findById(id)==null) {
             throw new Exception("Company Not Find!");
         }
-        companyRepository.deleteByCompanyId(id);
+        companyRepository.deleteById(id);
+        return true;
     }
 
 
