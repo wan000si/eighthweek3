@@ -15,10 +15,11 @@ import java.util.List;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Override
+    @Query("select c from Company c")
     List<Company> findAll();
 
     @Query("select c from Company c where c.id=?1")
-    Company findById(long id);
+    Company findById(Long id);
 
     @Query("select e from Employee e where e.companyId=?1")
     List<Employee> getEmployeesByCompanyId(long companyId);
@@ -30,11 +31,11 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     @Transactional
     @Modifying
-    @Query("update Company c set c.companyName=?1,c.employeesNumber=?2 where c.id=?3")
-    int updateCompany(long id, String companyName, int employeesNumber);
+    @Query("update Company c set c.companyName=?2,c.employeesNumber=?3 where c.id=?1")
+    void updateCompany(Long id, String companyName, int employeesNumber);
 
     @Transactional
     @Modifying
-    void deleteByCompanyId(long id);
+    void deleteById(Long id);
 
 }
