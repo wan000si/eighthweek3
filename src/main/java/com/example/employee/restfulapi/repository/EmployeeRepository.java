@@ -29,6 +29,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Transactional
     @Modifying
-    void deleteByName(String name);
+    void deleteById(long id);
 
 }
